@@ -127,6 +127,32 @@ func (b *Bar) Increment() {
 	b.update(b.curr + 1)
 }
 
+func (b *Bar) updateTotal(total int) {
+	if !b.stopped {
+		if total < b.curr {
+			b.curr = total
+			b.lastRender = true
+			b.stopped = true
+		}
+	} else {
+		if total > b.total {
+			b.lastRender = false
+			b.stopped = false
+		} else {
+			b.curr = total
+		}
+	}
+	b.total = total
+}
+
+// UpdateTotal updates the current total of the bar
+func (b *Bar) UpdateTotal(total int) {
+	b.mut.Lock()
+	defer b.mut.Unlock()
+
+	b.updateTotal(total)
+}
+
 // Stop stops the updating of the bar and sets a final msg (if not ab empty string)
 func (b *Bar) Stop(msg, extMsg string) {
 	b.mut.Lock()
