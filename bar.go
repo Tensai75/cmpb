@@ -87,6 +87,15 @@ func CalcRemaining(curr, total int, start time.Time, stopped bool) string {
 	return strutil.FmtDuration(time.Duration(remainingNanosec))
 }
 
+// CalcTime calculates the passed and remaining duration and returns a string
+func CalcTime(curr, total int, start time.Time, stopped bool) string {
+	calcDur := CalcDur()
+	return fmt.Sprintf("[%s|%s]",
+		calcDur(curr, total, start, stopped),
+		CalcRemaining(curr, total, start, stopped),
+	)
+}
+
 // CalcSteps calculates the steps completed so far and returns a string
 func CalcSteps(curr, total int, start time.Time, stopped bool) string {
 	return fmt.Sprintf("(%d/%d)", curr, total)
