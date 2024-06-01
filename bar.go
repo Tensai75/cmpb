@@ -165,7 +165,7 @@ func (b *Bar) updateTotal(total int) {
 			b.lastRender = false
 			b.stopped = false
 		} else {
-			b.curr = total
+			b.curr = b.total
 		}
 	}
 	b.total = total
