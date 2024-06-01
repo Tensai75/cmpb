@@ -153,6 +153,14 @@ func (b *Bar) UpdateTotal(total int) {
 	b.updateTotal(total)
 }
 
+// IncrementTotal updates the current total of the bar by 1
+func (b *Bar) IncrementTotal() {
+	b.mut.Lock()
+	defer b.mut.Unlock()
+
+	b.updateTotal(b.total + 1)
+}
+
 // Stop stops the updating of the bar and sets a final msg (if not ab empty string)
 func (b *Bar) Stop(msg, extMsg string) {
 	b.mut.Lock()
