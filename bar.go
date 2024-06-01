@@ -70,6 +70,23 @@ func CalcDur() func(int, int, time.Time, bool) string {
 	}
 }
 
+// CalcRemaining calculates the remaining duration and returns a string
+func CalcRemaining(curr, total int, start time.Time, stopped bool) string {
+	var remainingNanosec float64
+	if curr >= total || stopped {
+		remainingNanosec = 0
+	} else {
+		if curr > 0 {
+			elapsedNanosec := float64(time.Since(start).Nanoseconds())
+			remainingNanosec = (elapsedNanosec * float64(total) / float64(curr)) - elapsedNanosec
+		} else {
+			remainingNanosec = 0
+		}
+	}
+
+	return strutil.FmtDuration(time.Duration(remainingNanosec))
+}
+
 // CalcSteps calculates the steps completed so far and returns a string
 func CalcSteps(curr, total int, start time.Time, stopped bool) string {
 	return fmt.Sprintf("(%d/%d)", curr, total)
