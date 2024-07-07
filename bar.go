@@ -36,6 +36,7 @@ type Bar struct {
 	key, msg, extMsg    string
 	curr, total         int
 	lastRender, stopped bool
+	lastRenderDone      bool
 	start               time.Time
 	preBarF, postBarF   func(int, int, time.Time, bool) string
 	colors              BarColors

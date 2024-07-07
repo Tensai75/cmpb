@@ -192,7 +192,13 @@ func (p *Progress) render(scrollUp bool) {
 	// Done as another pass so all bars are always rendered per cycle
 	for _, bar := range p.bars {
 		if bar.isLastRender() {
+			// in cases where the total was updated resulting in a "restart" of the bar after the last render
+			// was already done, the WaitGroup has to be increased by one to avoid negativ WaitGroup counter
+			if bar.lastRenderDone {
+				p.wait.Add(1)
+			}
 			p.wait.Done()
+			bar.lastRenderDone = true
 		}
 	}
 }
